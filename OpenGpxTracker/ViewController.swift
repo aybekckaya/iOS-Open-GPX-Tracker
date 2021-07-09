@@ -139,8 +139,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// Whenever it is updated, if it has waypoints it sets the save and reset button
         didSet {
             if hasWaypoints {
-                saveButton.backgroundColor = kBlueButtonBackgroundColor
-                resetButton.backgroundColor = kRedButtonBackgroundColor
+                
             }
         }
     }
@@ -166,14 +165,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             case .notStarted:
                 print("switched to non started")
                 // set Tracker button to allow Start 
-                trackerButton.setTitle(NSLocalizedString("START_TRACKING", comment: "no comment"), for: UIControl.State())
-                trackerButton.backgroundColor = kGreenButtonBackgroundColor
-                //save & reset button to transparent.
-                saveButton.backgroundColor = kDisabledBlueButtonBackgroundColor
-                resetButton.backgroundColor = kDisabledRedButtonBackgroundColor
+               
                 //reset clock
                 stopWatch.reset()
-                timeLabel.text = stopWatch.elapsedTimeString
+               
                 
                 map.clearMap() //clear map
                 lastGpxFilename = "" //clear last filename, so when saving it appears an empty field
@@ -181,8 +176,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
                 map.coreDataHelper.clearAll()
                 map.coreDataHelper.coreDataDeleteAll(of: CDRoot.self)//deleteCDRootFromCoreData()
                 
-                totalTrackedDistanceLabel.distance = (map.session.totalTrackedDistance)
-                currentSegmentDistanceLabel.distance = (map.session.currentSegmentDistance)
+               
                 
                 /*
                 // XXX Left here for reference
@@ -197,22 +191,14 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             case .tracking:
                 print("switched to tracking mode")
                 // set tracerkButton to allow Pause
-                trackerButton.setTitle(NSLocalizedString("PAUSE", comment: "no comment"), for: UIControl.State())
-                trackerButton.backgroundColor = kPurpleButtonBackgroundColor
-                //activate save & reset buttons
-                saveButton.backgroundColor = kBlueButtonBackgroundColor
-                resetButton.backgroundColor = kRedButtonBackgroundColor
+               
                 // start clock
                 self.stopWatch.start()
                 
             case .paused:
                 print("switched to paused mode")
                 // set trackerButton to allow Resume
-                self.trackerButton.setTitle(NSLocalizedString("RESUME", comment: "no comment"), for: UIControl.State())
-                self.trackerButton.backgroundColor = kGreenButtonBackgroundColor
-                // activate save & reset (just in case switched from .NotStarted)
-                saveButton.backgroundColor = kBlueButtonBackgroundColor
-                resetButton.backgroundColor = kRedButtonBackgroundColor
+               
                 //pause clock
                 self.stopWatch.stop()
                 // start new track segment
@@ -237,17 +223,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     /// Label that displays current latitude and longitude (lat,long)
     var coordsLabel: UILabel
     
-    /// Displays current elapsed time (00:00)
-    var timeLabel: UILabel
-    
-    /// Label that displays last known speed (in km/h)
-    var speedLabel: UILabel
-    
-    /// Distance of the total segments tracked
-    var totalTrackedDistanceLabel: DistanceLabel
-    
-    /// Distance of the current segment being tracked (since last time the Tracker button was pressed)
-    var currentSegmentDistanceLabel: DistanceLabel
+//    /// Displays current elapsed time (00:00)
+//    var timeLabel: UILabel
+//
+//    /// Label that displays last known speed (in km/h)
+//    var speedLabel: UILabel
+//
+//    /// Distance of the total segments tracked
+//    var totalTrackedDistanceLabel: DistanceLabel
+//
+//    /// Distance of the current segment being tracked (since last time the Tracker button was pressed)
+//    var currentSegmentDistanceLabel: DistanceLabel
  
     /// Used to display in imperial (foot, miles, mph) or metric system (m, km, km/h)
     var useImperial = false
@@ -256,10 +242,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var followUserButton: UIButton
     
     /// New pin button (bottom bar)
-    var newPinButton: UIButton
+   // var newPinButton: UIButton
     
     /// View GPX Files button
-    var folderButton: UIButton
+    //var folderButton: UIButton
     
     /// View app about button
     var aboutButton: UIButton
@@ -277,13 +263,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     var shareActivityColor = UIColor(red: 0, green: 0.61, blue: 0.86, alpha: 1)
     
     /// Reset map button (bottom bar)
-    var resetButton: UIButton
+    //var resetButton: UIButton
     
     /// Start/Pause tracker button (bottom bar)
-    var trackerButton: UIButton
+    //var trackerButton: UIButton
     
     /// Save current track into a GPX file
-    var saveButton: UIButton
+    //var saveButton: UIButton
     
     /// Check if device is notched type phone
     var isIPhoneX = false
@@ -313,21 +299,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         self.signalAccuracyLabel = UILabel(coder: aDecoder)!
         self.coordsLabel = UILabel(coder: aDecoder)!
         
-        self.timeLabel = UILabel(coder: aDecoder)!
-        self.speedLabel = UILabel(coder: aDecoder)!
-        self.totalTrackedDistanceLabel = DistanceLabel(coder: aDecoder)!
-        self.currentSegmentDistanceLabel = DistanceLabel(coder: aDecoder)!
+      
         
         self.followUserButton = UIButton(coder: aDecoder)!
-        self.newPinButton = UIButton(coder: aDecoder)!
-        self.folderButton = UIButton(coder: aDecoder)!
-        self.resetButton = UIButton(coder: aDecoder)!
         self.aboutButton = UIButton(coder: aDecoder)!
         self.preferencesButton = UIButton(coder: aDecoder)!
         self.shareButton = UIButton(coder: aDecoder)!
         
-        self.trackerButton = UIButton(coder: aDecoder)!
-        self.saveButton = UIButton(coder: aDecoder)!
         
         self.shareActivityIndicator = UIActivityIndicatorView(coder: aDecoder)
         
@@ -484,37 +462,17 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         // Tracked info
         let iPhoneXdiff: CGFloat  = isIPhoneX ? 40 : 0
         //timeLabel
-        timeLabel.textAlignment = .right
-        timeLabel.font = font36
-        timeLabel.text = "00:00"
+       
         //timeLabel.shadowColor = UIColor.whiteColor()
         //timeLabel.shadowOffset = CGSize(width: 1, height: 1)
         //timeLabel.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
-        map.addSubview(timeLabel)
         
-        //speed Label
-        speedLabel.textAlignment = .right
-        speedLabel.font = font18
-        speedLabel.text = 0.00.toSpeed(useImperial: useImperial)
-        //timeLabel.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
-        map.addSubview(speedLabel)
         
-        //tracked distance
-        totalTrackedDistanceLabel.textAlignment = .right
-        totalTrackedDistanceLabel.font = font36
-        totalTrackedDistanceLabel.useImperial = useImperial
-        totalTrackedDistanceLabel.distance = 0.00
-        totalTrackedDistanceLabel.autoresizingMask = [.flexibleWidth, .flexibleLeftMargin, .flexibleRightMargin]
-        //timeLabel.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
-        map.addSubview(totalTrackedDistanceLabel)
+       
         
-        currentSegmentDistanceLabel.textAlignment = .right
-        currentSegmentDistanceLabel.font = font18
-        currentSegmentDistanceLabel.useImperial = useImperial
-        currentSegmentDistanceLabel.distance = 0.00
-        currentSegmentDistanceLabel.autoresizingMask = [.flexibleWidth, .flexibleLeftMargin, .flexibleRightMargin]
-        //timeLabel.backgroundColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
-        map.addSubview(currentSegmentDistanceLabel)
+       
+        
+        
         
         //about button
         aboutButton.frame = CGRect(x: 5 + 8, y: 14 + 5 + 48 + 5 + iPhoneXdiff, width: 32, height: 32)
@@ -551,15 +509,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let folderH: CGFloat = kButtonSmallSize
         let folderX: CGFloat = folderW/2 + 5
         let folderY: CGFloat = folderH/2 + 5 + 14  + iPhoneXdiff
-        folderButton.frame = CGRect(x: 0, y: 0, width: folderW, height: folderH)
-        folderButton.center = CGPoint(x: folderX, y: folderY)
-        folderButton.setImage(UIImage(named: "folder"), for: UIControl.State())
-        folderButton.setImage(UIImage(named: "folderHigh"), for: .highlighted)
-        folderButton.addTarget(self, action: #selector(ViewController.openFolderViewController), for: .touchUpInside)
-        folderButton.backgroundColor = kWhiteBackgroundColor
-        folderButton.layer.cornerRadius = 24
-        folderButton.autoresizingMask = [.flexibleRightMargin]
-        map.addSubview(folderButton)
+        
+        
         
         // Add signal accuracy images and labels
         signalImageView.image = signalImage0
@@ -590,24 +541,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         //                  map.frame/2 (center)
 
         // Start/Pause button
-        trackerButton.layer.cornerRadius = kButtonLargeSize/2
-        trackerButton.setTitle(NSLocalizedString("START_TRACKING", comment: "no comment"), for: UIControl.State())
-        trackerButton.backgroundColor = kGreenButtonBackgroundColor
-        trackerButton.addTarget(self, action: #selector(ViewController.trackerButtonTapped), for: .touchUpInside)
-        trackerButton.isHidden = false
-        trackerButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        trackerButton.titleLabel?.numberOfLines = 2
-        trackerButton.titleLabel?.textAlignment = .center
-        map.addSubview(trackerButton)
+       
         
-        // Pin Button (on the left of start)
-        newPinButton.layer.cornerRadius = kButtonSmallSize/2
-        newPinButton.backgroundColor = kWhiteBackgroundColor
-        newPinButton.setImage(UIImage(named: "addPin"), for: UIControl.State())
-        newPinButton.setImage(UIImage(named: "addPinHigh"), for: .highlighted)
-        newPinButton.addTarget(self, action: #selector(ViewController.addPinAtMyLocation), for: .touchUpInside)
-        map.addSubview(newPinButton)
         
+      
         // Follow user button
         followUserButton.layer.cornerRadius = kButtonSmallSize/2
         followUserButton.backgroundColor = kWhiteBackgroundColor
@@ -617,25 +554,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         followUserButton.addTarget(self, action: #selector(ViewController.followButtonTroggler), for: .touchUpInside)
         map.addSubview(followUserButton)
         
-        // Save button
-        saveButton.layer.cornerRadius = kButtonSmallSize/2
-        saveButton.setTitle(NSLocalizedString("SAVE", comment: "no comment"), for: UIControl.State())
-        saveButton.backgroundColor = kDisabledBlueButtonBackgroundColor
-        saveButton.addTarget(self, action: #selector(ViewController.saveButtonTapped), for: .touchUpInside)
-        saveButton.isHidden = false
-        saveButton.titleLabel?.textAlignment = .center
-        saveButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        map.addSubview(saveButton)
+       
         
-        // Reset button
-        resetButton.layer.cornerRadius = kButtonSmallSize/2
-        resetButton.setTitle(NSLocalizedString("RESET", comment: "no comment"), for: UIControl.State())
-        resetButton.backgroundColor = kDisabledRedButtonBackgroundColor
-        resetButton.addTarget(self, action: #selector(ViewController.resetButtonTapped), for: .touchUpInside)
-        resetButton.isHidden = false
-        resetButton.titleLabel?.textAlignment = .center
-        resetButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        map.addSubview(resetButton)
+       
         
         addConstraints(isIPhoneX)
         
@@ -683,29 +604,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         /// offset from center, without obstructing signal view
         let kSignalViewOffset: CGFloat = 25
         
-        // Switch off all autoresizing masks translate
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        speedLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalTrackedDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
-        currentSegmentDistanceLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint(item: timeLabel, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -7).isActive = true
-        NSLayoutConstraint(item: timeLabel, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: kSignalViewOffset).isActive = true
-        // self.topLayoutGuide takes care of the iPhone X safe area, iPhoneXdiff not needed
-        NSLayoutConstraint(item: timeLabel, attribute: .top, relatedBy: .equal, toItem: self.topLayoutGuide, attribute: .bottom, multiplier: 1, constant: 20).isActive = true
-        
-        NSLayoutConstraint(item: speedLabel, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -7).isActive = true
-        NSLayoutConstraint(item: speedLabel, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: kSignalViewOffset).isActive = true
-        NSLayoutConstraint(item: speedLabel, attribute: .top, relatedBy: .equal, toItem: timeLabel, attribute: .bottom, multiplier: 1, constant: -5).isActive = true
-        
-        NSLayoutConstraint(item: totalTrackedDistanceLabel, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -7).isActive = true
-        NSLayoutConstraint(item: totalTrackedDistanceLabel, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: kSignalViewOffset).isActive = true
-        NSLayoutConstraint(item: totalTrackedDistanceLabel, attribute: .top, relatedBy: .equal, toItem: speedLabel, attribute: .bottom, multiplier: 1, constant: 5).isActive = true
-        
-        NSLayoutConstraint(item: currentSegmentDistanceLabel, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: -7).isActive = true
-        NSLayoutConstraint(item: currentSegmentDistanceLabel, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: kSignalViewOffset).isActive = true
-        NSLayoutConstraint(item: currentSegmentDistanceLabel, attribute: .top, relatedBy: .equal, toItem: totalTrackedDistanceLabel, attribute: .bottom, multiplier: 1, constant: 0).isActive = true
-
+       
     }
     
     /// Adds constraints to subviews forming the button bar (bottom session controls bar)
@@ -717,39 +616,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let kBottomDistance: CGFloat = kBottomGap + 24
         
         // Switch off all autoresizing masks translate
-        trackerButton.translatesAutoresizingMaskIntoConstraints = false
-        newPinButton.translatesAutoresizingMaskIntoConstraints = false
-        followUserButton.translatesAutoresizingMaskIntoConstraints = false
-        saveButton.translatesAutoresizingMaskIntoConstraints = false
-        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        
         
         // set trackerButton to horizontal center of view
-        NSLayoutConstraint(item: trackerButton, attribute: .centerX, relatedBy: .equal, toItem: map, attribute: .centerX, multiplier: 1, constant: 0).isActive = true
         
-        // seperation distance between each button
-        NSLayoutConstraint(item: trackerButton, attribute: .leading, relatedBy: .equal, toItem: newPinButton, attribute: .trailing, multiplier: 1, constant: kButtonSeparation).isActive = true
-        NSLayoutConstraint(item: newPinButton, attribute: .leading, relatedBy: .equal, toItem: followUserButton, attribute: .trailing, multiplier: 1, constant: kButtonSeparation).isActive = true
-        NSLayoutConstraint(item: saveButton, attribute: .leading, relatedBy: .equal, toItem: trackerButton, attribute: .trailing, multiplier: 1, constant: kButtonSeparation).isActive = true
-        NSLayoutConstraint(item: resetButton, attribute: .leading, relatedBy: .equal, toItem: saveButton, attribute: .trailing, multiplier: 1, constant: kButtonSeparation).isActive = true
 
         // seperation distance between button and bottom of view
         NSLayoutConstraint(item: self.bottomLayoutGuide, attribute: .top, relatedBy: .equal, toItem: followUserButton, attribute: .bottom, multiplier: 1, constant: kBottomDistance).isActive = true
-        NSLayoutConstraint(item: self.bottomLayoutGuide, attribute: .top, relatedBy: .equal, toItem: newPinButton, attribute: .bottom, multiplier: 1, constant: kBottomDistance).isActive = true
-        NSLayoutConstraint(item: self.bottomLayoutGuide, attribute: .top, relatedBy: .equal, toItem: trackerButton, attribute: .bottom, multiplier: 1, constant: kBottomGap).isActive = true
-        NSLayoutConstraint(item: self.bottomLayoutGuide, attribute: .top, relatedBy: .equal, toItem: saveButton, attribute: .bottom, multiplier: 1, constant: kBottomDistance).isActive = true
-        NSLayoutConstraint(item: self.bottomLayoutGuide, attribute: .top, relatedBy: .equal, toItem: resetButton, attribute: .bottom, multiplier: 1, constant: kBottomDistance).isActive = true
+        
         
         // fixed dimensions for all buttons
         NSLayoutConstraint(item: followUserButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
         NSLayoutConstraint(item: followUserButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
-        NSLayoutConstraint(item: newPinButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
-        NSLayoutConstraint(item: newPinButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
-        NSLayoutConstraint(item: trackerButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonLargeSize).isActive = true
-        NSLayoutConstraint(item: trackerButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonLargeSize).isActive = true
-        NSLayoutConstraint(item: saveButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
-        NSLayoutConstraint(item: saveButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
-        NSLayoutConstraint(item: resetButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
-        NSLayoutConstraint(item: resetButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: kButtonSmallSize).isActive = true
+        
     }
     
     /// For handling compass location changes when orientation is switched.
@@ -865,7 +744,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         self.map.regionToGPXExtent()
         self.gpxTrackingStatus = .paused
         
-        self.totalTrackedDistanceLabel.distance = self.map.session.totalTrackedDistance
+       
     }
     
     ///
@@ -962,45 +841,51 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             //Add it to the list of tmpFiles.
             //Note: it may add more than once the same file to the list.
             
-            // UI code
-            DispatchQueue.main.sync {
-                //Call Share activity View controller
-                let activityViewController = UIActivityViewController(activityItems: [tmpFile], applicationActivities: nil)
-                activityViewController.popoverPresentationController?.sourceView = self.shareButton
-                activityViewController.popoverPresentationController?.sourceRect = self.shareButton.bounds
-                self.present(activityViewController, animated: true, completion: nil)
-                self.shouldShowShareActivityIndicator(false)
+            do {
+                 let url = try FileManager.default.url(for: FileManager.SearchPathDirectory.downloadsDirectory, in: FileManager.SearchPathDomainMask.userDomainMask, appropriateFor: nil, create: true)
+                let filePath = url.appendingPathComponent("\(Date()).gpx")
+                try gpxString.write(to: filePath, atomically: true, encoding: .utf8)
+                DispatchQueue.main.sync {
+                    self.shouldShowShareActivityIndicator(false)
+                }
+            } catch{
+                  print(error)
+                DispatchQueue.main.sync {
+                    self.shouldShowShareActivityIndicator(false)
+                }
             }
-            
         }
     }
     
     /// Displays spinning activity indicator for share button when true
     func shouldShowShareActivityIndicator(_ isTrue: Bool) {
         // setup
-        shareActivityIndicator.color = shareActivityColor
-        shareActivityIndicator.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
-        shareActivityIndicator.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
         
-        if isTrue {
-            // cross dissolve from button to indicator
-            UIView.transition(with: self.shareButton, duration: 0.35, options: [.transitionCrossDissolve], animations: {
-                self.shareButton.addSubview(self.shareActivityIndicator)
-            }, completion: nil)
+            shareActivityIndicator.color = shareActivityColor
+            shareActivityIndicator.frame = CGRect(x: 0, y: 0, width: 32, height: 32)
+            shareActivityIndicator.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
             
-            shareActivityIndicator.startAnimating()
-            shareButton.setImage(nil, for: UIControl.State())
-            shareButton.isUserInteractionEnabled = false
-        } else {
-            // cross dissolve from indicator to button
-            UIView.transition(with: self.shareButton, duration: 0.35, options: [.transitionCrossDissolve], animations: {
-                self.shareActivityIndicator.removeFromSuperview()
-            }, completion: nil)
-            
-            shareActivityIndicator.stopAnimating()
-            shareButton.setImage(UIImage(named: "share"), for: UIControl.State())
-            shareButton.isUserInteractionEnabled = true
-        }
+            if isTrue {
+                // cross dissolve from button to indicator
+                UIView.transition(with: self.shareButton, duration: 0.35, options: [.transitionCrossDissolve], animations: {
+                    self.shareButton.addSubview(self.shareActivityIndicator)
+                }, completion: nil)
+                
+                shareActivityIndicator.startAnimating()
+                shareButton.setImage(nil, for: UIControl.State())
+                shareButton.isUserInteractionEnabled = false
+            } else {
+                // cross dissolve from indicator to button
+                UIView.transition(with: self.shareButton, duration: 0.35, options: [.transitionCrossDissolve], animations: {
+                    self.shareActivityIndicator.removeFromSuperview()
+                }, completion: nil)
+                
+                shareActivityIndicator.stopAnimating()
+                shareButton.setImage(UIImage(named: "share"), for: UIControl.State())
+                shareButton.isUserInteractionEnabled = true
+            }
+        
+       
     }
     
     ///
@@ -1243,7 +1128,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 ///
 extension ViewController: StopWatchDelegate {
     func stopWatch(_ stropWatch: StopWatch, didUpdateElapsedTimeString elapsedTimeString: String) {
-        timeLabel.text = elapsedTimeString
+        
     }
 }
 
@@ -1286,11 +1171,7 @@ extension ViewController: PreferencesTableViewControllerDelegate {
     func didUpdateUseImperial(_ newUseImperial: Bool) {
         print("PreferencesTableViewControllerDelegate:: didUpdateUseImperial: \(newUseImperial)")
         useImperial = newUseImperial
-        totalTrackedDistanceLabel.useImperial = useImperial
-        currentSegmentDistanceLabel.useImperial = useImperial
-        //Because we dont know if last speed was unknown we set it as unknown.
-        // In regular circunstances it will go to the new units relatively fast.
-        speedLabel.text = kUnknownSpeedText
+       
         signalAccuracyLabel.text = kUnknownAccuracyText
     }}
 
@@ -1321,7 +1202,7 @@ extension ViewController: GPXFilesTableViewControllerDelegate {
         self.map.regionToGPXExtent()
         self.gpxTrackingStatus = .paused
         
-        self.totalTrackedDistanceLabel.distance = self.map.session.totalTrackedDistance
+        
         
     }
 }
@@ -1392,7 +1273,7 @@ extension ViewController: CLLocationManagerDelegate {
         coordsLabel.text = String(format: NSLocalizedString("COORDS_LABEL", comment: "no comment"), latFormat, lonFormat, altitude)
         
         //Update speed
-        speedLabel.text = (newLocation.speed < 0) ? kUnknownSpeedText : newLocation.speed.toSpeed(useImperial: useImperial)
+        
         
         //Update Map center and track overlay if user is being followed
         if followUser {
@@ -1401,8 +1282,7 @@ extension ViewController: CLLocationManagerDelegate {
         if gpxTrackingStatus == .tracking {
             print("didUpdateLocation: adding point to track (\(newLocation.coordinate.latitude),\(newLocation.coordinate.longitude))")
             map.addPointToCurrentTrackSegmentAtLocation(newLocation)
-            totalTrackedDistanceLabel.distance = map.session.totalTrackedDistance
-            currentSegmentDistanceLabel.distance = map.session.currentSegmentDistance
+            
         }
     }
 
